@@ -53,7 +53,12 @@ class NBADraftCombineDataHandler:
                 player.three_quarter_sprint_time_score = None
                 player.max_vertical_leap_score = None
                 player.max_vertical_leap_time_score = None
-                player.bmi = None
+
+                #BMI
+                if player.height and float(player.weight) > 0:
+                    player.bmi = round(self.calculate_bmi(player.height, float(player.weight)), 1)
+                else:
+                    player.bmi = None
                 processed_players.append(player)
             logging.info("Data processed successfully")
         except Exception as e:
@@ -73,6 +78,9 @@ class NBADraftCombineDataHandler:
             session.close()
 
     def calculate_bmi(self, height, weight):
+        bmi = (weight / (height ** 2)) * 703
+        return bmi
+
 
 def main():
     data_handler = NBADraftCombineDataHandler(season_year='2019')
