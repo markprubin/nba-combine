@@ -46,6 +46,14 @@ class NBADraftCombineDataHandler:
                 player.weight = player_data[10] if player_data[10] is not None else "unknown"
                 player.wingspan = player_data[11] if player_data[11] is not None else 0.0
                 player.standing_reach = player_data[13] if player_data[13] is not None else 0.0
+                player.vertical_leap = None
+                player.bench_press_reps = None
+                player.lane_agility_time = None
+                player.shuttle_run_time = None
+                player.three_quarter_sprint_time_score = None
+                player.max_vertical_leap_score = None
+                player.max_vertical_leap_time_score = None
+                player.bmi = None
                 processed_players.append(player)
             logging.info("Data processed successfully")
         except Exception as e:
@@ -63,6 +71,8 @@ class NBADraftCombineDataHandler:
             logging.error(f"Error storing data: {e}")
         finally:
             session.close()
+
+    def calculate_bmi(self, height, weight):
 
 def main():
     data_handler = NBADraftCombineDataHandler(season_year='2019')
