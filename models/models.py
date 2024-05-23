@@ -8,6 +8,9 @@ class Player(Base):
     __tablename__ = 'players'
 
     player_id = Column(Integer, primary_key=True)
+    first_name = Column(String)
+    last_name = Column(String)
+    position = Column(String)
     team = Column(String)
     height = Column(Float)
     weight = Column(String)

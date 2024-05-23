@@ -14,23 +14,23 @@ Session = sessionmaker(bind=engine)
 
 class NBADraftCombineDataHandler:
 
-    def __init__(self, season_year, league_id='00'):
+    def __init__(self, season_all_time, league_id='00'):
         self.league_id = league_id
-        self.season_year = season_year
+        self.season_all_time = season_all_time
 
     def fetch_data(self):
         """
-        Fetches data from the nba_api library
-        :param league_id: The league ID for the NBA
-        :param season_year: the draft year in YYYY format
+        Fetches data from the nba_api library from multiple endpoints.
         :return: A list of player anthropometric data in the respective year for the NBA.
         """
+
         try:
-            player_anthro = draftcombineplayeranthro.DraftCombinePlayerAnthro(league_id=self.league_id, season_year=self.season_year)
-            data = player_anthro.get_json()
+            player_data = draftcombinestats.DraftCombineStats(league_id=self.league_id, season_all_time=self.season_all_time)
+            data = player_data.get_json()
             data = json.loads(data)
             logging.info("Data fetched successfully")
             return data
+
         except Exception as e:
             logging.error(f'Error fetching NBA Draft Combine data: {e}')
             return None
@@ -41,15 +41,19 @@ class NBADraftCombineDataHandler:
             for player_data in raw_data['resultSets'][0]['rowSet']:
                 player = Player()
                 player.player_id = player_data[1]
+                player.first_name = player_data[2]
+                player.last_name = player_data[3]
+                player.position = player_data[5]
                 player.team = "Default Team"
                 player.height = player_data[6] if player_data[6] is not None else 0.0
                 player.weight = player_data[10] if player_data[10] is not None else "unknown"
                 player.wingspan = player_data[11] if player_data[11] is not None else 0.0
                 player.standing_reach = player_data[13] if player_data[13] is not None else 0.0
-                player.vertical_leap = None
-                player.bench_press_reps = None
-                player.lane_agility_time = None
-                player.shuttle_run_time = None
+                player.vertical_leap = player_data[19] if player_data[19] is not None else 0.0
+                player.bench_press_reps = player_data[23] if player_data[23] is not None else 0
+                player.lane_agility_time = player_data[20] if player_data[20] is not None else 0.0
+                # Double check shuttle_run_time as Modified lane agility
+                player.shuttle_run_time = player_data[21] if player_data[21] is not None else 0.0
                 player.three_quarter_sprint_time_score = None
                 player.max_vertical_leap_score = None
                 player.max_vertical_leap_time_score = None
@@ -83,8 +87,9 @@ class NBADraftCombineDataHandler:
 
 
 def main():
-    data_handler = NBADraftCombineDataHandler(season_year='2019')
+    data_handler = NBADraftCombineDataHandler(season_all_time='2019-20')
     raw_data = data_handler.fetch_data()
+    print(raw_data)
     if raw_data:
         processed_data = data_handler.process_data(raw_data)
         if processed_data:
@@ -93,6 +98,7 @@ def main():
             logging.warning("No data processed")
     else:
         logging.warning('Failed to fetch data.')
+
 
 if __name__ == '__main__':
     main()
