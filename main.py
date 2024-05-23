@@ -52,8 +52,8 @@ class NBADraftCombineDataHandler:
                 player.vertical_leap = player_data[19] if player_data[19] is not None else 0.0
                 player.bench_press_reps = player_data[23] if player_data[23] is not None else 0
                 player.lane_agility_time = player_data[20] if player_data[20] is not None else 0.0
-                # Double check shuttle_run_time as Modified lane agility
                 player.shuttle_run_time = player_data[21] if player_data[21] is not None else 0.0
+                # Placeholders for calculations to come
                 player.three_quarter_sprint_time_score = None
                 player.max_vertical_leap_score = None
                 player.max_vertical_leap_time_score = None
@@ -84,6 +84,9 @@ class NBADraftCombineDataHandler:
     def calculate_bmi(self, height, weight):
         bmi = (weight / (height ** 2)) * 703
         return bmi
+
+    # def calculate_scores(self, data):
+    #
 
 
 def main():
