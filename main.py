@@ -38,8 +38,9 @@ class NBADraftCombineDataHandler:
             # Fetch Player anthropometric data and stats. Load as json, as get_json() loads it as a string.
             player_data = draftcombinestats.DraftCombineStats(league_id=self.league_id, season_all_time=self.season_all_time)
             player_json = player_data.get_json()
+            # Loading the data in json, as above put it in a class of string.
             player_data = json.loads(player_json)
-
+            # Combine the data from each season's stats, as well as the college information that was fetched once. This is placed together to process the data.
             combined_data = {
                 "player_data": player_data,
                 "college_data": college_data
@@ -64,6 +65,7 @@ class NBADraftCombineDataHandler:
 
         draft_history = drafthistory.DraftHistory()
         draft_data = draft_history.draft_history.get_dict()['data']
+        # Assigning the respective player_id to the organization they played for prior to the draft in a key, value pair.
         college_data = {item[0]: item[11] for item in
                         draft_data}
         return college_data
@@ -155,7 +157,7 @@ class NBADraftCombineDataHandler:
             logging.error("No players found for the season.")
             return
 
-        # Analyze each metric within the multiple metrics put in the function. Returns
+        # Analyze each metric within the multiple metrics put in the function. It will loop through each metric and gather its data, eventually calculating its scores.
         for metric in metrics:
             metric_data = [getattr(player, metric) for player in players if getattr(player, metric) is not None]
 
@@ -167,7 +169,7 @@ class NBADraftCombineDataHandler:
             np_metric_data = np.array(metric_data, dtype=float)
             z_scores = zscore(np_metric_data)
 
-            # Go through z-scores and assign to each respective player
+            # Go through z-scores and assign to each respective player. Here we are adjusting by a factor of 15, using 100 as the average.
             index = 0
             for player in players:
                 if getattr(player, metric) is not None:
