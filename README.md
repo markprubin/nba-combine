@@ -58,7 +58,7 @@ psql
 Type in:
 ```commandline 
 CREATE DATABASE nba_combine;
-- ```
+```
 Then, if you do not have a username and password, enter:
 ```commandline
 CREATE USER yourusername WITH ENCRYPTED PASSWORD 'yourpassword';
@@ -76,14 +76,14 @@ Create a .env file, and put in the file the following: `DB_URL=postgresql://your
 
 The .env.example file shows an example for creating the .env file in the main directory, where you can copy and paste the contents (as well as editing the username and password) in the .env file.
 #### Initialize the Database
-- Ensure that RESET_DB = True in the init_db.py file before you run the main script.
+- Ensure that RESET_DB = True in the init_db.py file before you run the main script. It is already set to the default.
 
 #### Run the script
 
 - Navigate to the main directory of the project.
 
 Execute:
-`python3 main.py`
+`python main.py`
 
 - This will initialize your database and run the script to load the data.
 
