@@ -11,7 +11,7 @@ It pulls data such as player_id, as a unique identifer, as well as their positio
 Beyond that, it has custom calculations to measure BMI (body mass index) and relative comparison scores for max bench press reps, three quarter sprint time, and max vertical leap. These scores are used to compare among the relative combine class for ease of analysis and reporting, and to highlight variations in player performances.
 
 ### Prerequisites
-- Python 3.11.4 installed 
+#### Python 3.11.4 installed 
 
 #### PostgreSQL
 Before you begin, ensure that you have PostgreSQL installed on your computer. If you don't have PostgreSQL installed, follow the installation instructions below based on your operating system.
