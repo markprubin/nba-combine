@@ -89,7 +89,7 @@ class NBADraftCombineDataHandler:
                 player.season_year = season_year
                 player.team = college_data.get(player.player_id, None)
                 player.height = player_data[6] if player_data[6] is not None else None
-                player.weight = player_data[10] if player_data[10] is not None else None
+                player.weight = player_data[10] if player_data[10] not in (None, '') else None
                 player.wingspan = player_data[11] if player_data[11] is not None else None
                 player.standing_reach = player_data[13] if player_data[13] is not None else None
                 player.standing_vertical_leap = player_data[18] if player_data[18] is not None else None

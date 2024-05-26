@@ -15,8 +15,8 @@ engine = create_engine(db_url, echo=True)
 if RESET_DB:
     try:
         Base.metadata.drop_all(engine)
-        print("Database dropped")
+        print("Tables dropped")
         Base.metadata.create_all(engine)
-        print("Database has been created")
+        print("Tables have been created")
     except Exception as e:
         print(f"An error has occurred: {e}")

@@ -8,7 +8,7 @@ This script will grab NBA Combine Draft Data from the year 2000 to the current y
 
 It pulls data such as player_id, as a unique identifer, as well as their position, college/prior team, anthropometric data, and some athletic tests such as vertical jump, max bench press reps, and a few agility tests.
 
-Beyond that, it has custom calculations to measure BMI (body mass index) and relative comparison scores for max bench press reps, three quarter sprint time, and max vertical leap. These scores are used to compare among the relative combine class.
+Beyond that, it has custom calculations to measure BMI (body mass index) and relative comparison scores for max bench press reps, three quarter sprint time, and max vertical leap. These scores are used to compare among the relative combine class for ease of analysis and reporting, and to highlight variations in player performances.
 
 ### Prerequisites
 - Python 3.11.4 installed 
@@ -50,12 +50,28 @@ pip install -r requirements.txt
 ### Usage
 
 #### Create the Database
-- Go to your terminal and type in `psql`
-- Type in `CREATE DATABASE nba_combine;`
-- Then, if you do not have a username and password, enter `CREATE USER yourusername WITH ENCRYPTED PASSWORD 'yourpassword';`, replacing *yourusername* and *yourpassword* with your choice.
-- Finish with `GRANT ALL PRIVILEGES ON DATABASE nba_combine TO yourusername;`, again replacing with your username and password
-- Then exit with `\q`
-- Create a .env file, and put in the file the following: `DB_URL=postgresql://yourusername:yourpassword@localhost/nba_combine`, again, replacing the username and password fields with your own that you set up.
+Go to your terminal and type in:
+```commandline 
+psql
+```
+Type in:
+```commandline 
+CREATE DATABASE nba_combine;
+- ```
+Then, if you do not have a username and password, enter:
+```commandline
+CREATE USER yourusername WITH ENCRYPTED PASSWORD 'yourpassword';
+```
+replacing *yourusername* and *yourpassword* with your choice.
+
+Finish with the following, replacing with your username and password
+```commandline
+GRANT ALL PRIVILEGES ON DATABASE nba_combine TO yourusername;
+```
+
+Then exit with `\q`
+
+Create a .env file, and put in the file the following: `DB_URL=postgresql://yourusername:yourpassword@localhost/nba_combine`, again, replacing the username and password fields with your own that you set up.
 
 #### Initialize the Database
 - Ensure that RESET_DB = True in the init_db.py file before you run the main script.
@@ -92,7 +108,6 @@ Execute:
 - urllib3==2.2.1
 
 
-
 ### Challenges:
 
 1. The output was not being recognized as a dictionary, but as an entire string:
@@ -105,7 +120,7 @@ Therefore, I realized that the type was of class<str>, and I had to adjust fetch
 3. Had an issue with the BMI calculation getting rid of around half of the players in a specific year based on my initial logic on the if statement, where I said if they were greater than 0, proceed. I changed it height and weight "is not None", and it gave me all the players, even if no height or weight was recorded.
 4. Ran into multiple session rollbacks when updating the database with the range of annual data. Any repeated player_id's due to prior attendance created an error and cause the data for that year not to upload. Therefore, I set the primary key in my model to player_id AND season_year, allowing for multiple appearances of players.
 5. I had fetched the college's attended for each player within the loop of fetching each year's data, which is overly taxing on the API. I created a static method to retrieve the data once and call before the loop, using it as a temporary storage, as the college data is not attached to a specific year.
-
+6. Adjusted processing weight data to recognize empty strings. I wanted to treat any empty occurrences as null to correctly calculate bmi. I will definitely adjust the original intake of weight as a float instead to reduce any conditionals needed in case of str/float errors.
 ### Adjustments to prompt:
 
 I have added the following columns for easier referencing and data availability if needed, as I felt player_id was not sufficient:
@@ -118,7 +133,7 @@ I have added the following columns for easier referencing and data availability 
 
 ### Future Considerations
 - **Database Creation**: I plan on creating a .sh file that will create the database automatically.
-- **Performance Optimization**:
+- **Robust Testing**: I would implement Pytest to ensure proper testing for each part of the data retrieval and processing the data.
 - **Data Visualization**: Implement functionality for visualizing data trends over the years, such as changes in player measurements or performance scores. Potentially compare to success within the NBA, if drafted.
 - **Expanded Data Sources**: Consider integrating additional data sources to enrich the dataset with more detailed player profiles or historical performance metrics.
 - **Machine Learning**: ML models can be explored to predict player success based on combine data, which could be a valuable tool for scouting.
