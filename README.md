@@ -12,6 +12,7 @@ Beyond that, it has custom calculations to measure BMI (body mass index) and rel
 
 ### Prerequisites
 - Python 3.11.4 installed 
+
 #### PostgreSQL
 Before you begin, ensure that you have PostgreSQL installed on your computer. If you don't have PostgreSQL installed, follow the installation instructions below based on your operating system.
 - Windows
@@ -37,7 +38,7 @@ cd nba-combine
 ```
 2. Set up a virtual environment (optional, but recommended):
 ```commandline
-python3 -m venv venv
+python3.11 -m venv venv
 source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
 ```
