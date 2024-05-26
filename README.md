@@ -73,6 +73,7 @@ Then exit with `\q`
 
 Create a .env file, and put in the file the following: `DB_URL=postgresql://yourusername:yourpassword@localhost/nba_combine`, again, replacing the username and password fields with your own that you set up.
 
+The .env.example file shows an example for creating the .env file in the main directory, where you can copy and paste the contents (as well as editing the username and password) in the .env file.
 #### Initialize the Database
 - Ensure that RESET_DB = True in the init_db.py file before you run the main script.
 
