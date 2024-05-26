@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Set to False to not trigger a database reset. True will initiate a drop and creation of the database.
-RESET_DB = False
+RESET_DB = True
 
 db_url = os.getenv("DB_URL")
 engine = create_engine(db_url, echo=True)

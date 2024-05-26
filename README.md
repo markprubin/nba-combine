@@ -1,6 +1,3 @@
-# Readme under construction...
-
-
 ## NBA Combine Draft Data
 
 The NBA Combine is an annual event leading up to the NBA Draft, where prospective players are evaluated for their performance and playing ability. Invitees go through a series of athletic tests, drills, and interviews under observation from NBA coaches and management. They include physical anthropometric measurements, medical tests, athletic ability tests, and scrimmages. The NBA Combine helps NBA teams assess where the incoming talent pool is from a physical and mental perspective regarding readiness for professional basketball. It is a crucial step, among their previous playing career, in their journey to making it in the NBA.
@@ -14,8 +11,22 @@ It pulls data such as player_id, as a unique identifer, as well as their positio
 Beyond that, it has custom calculations to measure BMI (body mass index) and relative comparison scores for max bench press reps, three quarter sprint time, and max vertical leap. These scores are used to compare among the relative combine class.
 
 ### Prerequisites
-- Python 3.11.4 installed
-- PostgreSQL
+- Python 3.11.4 installed 
+#### PostgreSQL
+Before you begin, ensure that you have PostgreSQL installed on your computer. If you don't have PostgreSQL installed, follow the installation instructions below based on your operating system.
+- Windows
+
+	1.	Download the installer from the official PostgreSQL website.
+	2.	Run the downloaded file and follow the installation wizard instructions.
+- macOS
+	1.	Install Homebrew (if not already installed) by running:
+`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+  2.	Install PostgreSQL using Homebrew: `brew install postgresql`
+
+#### Start Postgres Service:
+- Windows: Use the Services application to start the PostgreSQL service.
+- macOS: `brew services start postgresql`
+
 
 ### Installation
 1. Clone the repository
@@ -38,14 +49,27 @@ pip install -r requirements.txt
 
 ### Usage
 
-Ensure that you are in the main directory of the project.
+#### Create the Database
+- Go to your terminal and type in `psql`
+- Type in `CREATE DATABASE nba_combine;`
+- Then, if you do not have a username and password, enter `CREATE USER yourusername WITH ENCRYPTED PASSWORD 'yourpassword';`, replacing *yourusername* and *yourpassword* with your choice.
+- Finish with `GRANT ALL PRIVILEGES ON DATABASE nba_combine TO yourusername;`, again replacing with your username and password
+- Then exit with `\q`
+- Create a .env file, and put in the file the following: `DB_URL=postgresql://yourusername:yourpassword@localhost/nba_combine`, again, replacing the username and password fields with your own that you set up.
+
+#### Initialize the Database
+- Ensure that RESET_DB = True in the init_db.py file before you run the main script.
+
+#### Run the script
+
+- Navigate to the main directory of the project.
 
 Execute:
 `python3 main.py`
 
-This will initialize your database and run the script to load the data.
+- This will initialize your database and run the script to load the data.
 
-If you want to reset the database (drop and create the database from scratch), go to init_db.py and set RESET_DB = True and run the script. This is located in "nba-combine/init_db.py".
+- NOTE: If you want to reset the database (drop and create the database from scratch), go to init_db.py and set RESET_DB = True and run the script. This is located in "nba-combine/init_db.py".
 
 ### Dependencies
 
@@ -93,7 +117,7 @@ I have added the following columns for easier referencing and data availability 
 
 
 ### Future Considerations
-
+- **Database Creation**: I plan on creating a .sh file that will create the database automatically.
 - **Performance Optimization**:
 - **Data Visualization**: Implement functionality for visualizing data trends over the years, such as changes in player measurements or performance scores. Potentially compare to success within the NBA, if drafted.
 - **Expanded Data Sources**: Consider integrating additional data sources to enrich the dataset with more detailed player profiles or historical performance metrics.
